@@ -4,4 +4,4 @@ from .models import Contact, GetQUote,Home
 class HomeSerializer(serializers.ModelSerializer):
     class Meta:
         model=Home
-        fields=['image']
+        fields=['image', 'text']

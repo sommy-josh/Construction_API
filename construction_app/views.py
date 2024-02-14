@@ -10,6 +10,7 @@ from .permissions import CanViewProductOnly
 from rest_framework.decorators import api_view
 import resend
 from rest_framework import filters
+from rest_framework.pagination import PageNumberPagination
 # class HomeView(generics.ListCreateAPIView):
 #     authentication_classes=[BasicAuthentication]
 #     permission_classes=[IsAuthenticated & CanViewProductOnly]
@@ -22,10 +23,13 @@ from rest_framework import filters
 
 class ListProductView(generics.ListAPIView):
     permission_classes=[CanViewProductOnly]
-    queryset=Home.objects.all()
+    queryset=Home.objects.all().order_by('id')
+    pagination_class = PageNumberPagination
     serializer_class=HomeSerializer
+    
     filter_backends=[filters.SearchFilter]
-    search_fields=['image','product']
+    search_fields=['image','text']
+
     # def get_product_list(self, request):
     #     queryset=Home.objects.all()
     #     product=self.get_queryset()

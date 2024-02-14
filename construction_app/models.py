@@ -22,7 +22,8 @@ class Contact(models.Model):
         return self.your_email
 
 class Home(models.Model):
-    product=models.CharField(max_length=200, default=None, null=True)
+    text=models.CharField(max_length=200, default=None, null=True)
     image=models.ImageField(upload_to='project_images/', )
-    
+    def __str__(self):
+        return self.text
   
