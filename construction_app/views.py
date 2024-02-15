@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view
 import resend
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAdminUser
 # class HomeView(generics.ListCreateAPIView):
 #     authentication_classes=[BasicAuthentication]
 #     permission_classes=[IsAuthenticated & CanViewProductOnly]
@@ -38,7 +39,7 @@ class ListProductView(generics.ListAPIView):
     
     
 class CreateProductView(generics.CreateAPIView):
-    permission_classes=[IsAuthenticated]
+    permission_classes=[IsAdminUser]
     serializer_class=HomeSerializer
     def create(self, request, *args, **kwargs):
         serializer=self.get_serializer(data=request.data)
@@ -46,6 +47,11 @@ class CreateProductView(generics.CreateAPIView):
         self.perform_create(serializer)
         headers=self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED,headers=headers)
+
+class UpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes=[IsAdminUser]
+    queryset=Home.objects.all()
+    serializer_class=HomeSerializer
     
 
 @api_view(['POST'])
